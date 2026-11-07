@@ -1,0 +1,39 @@
+# dependencies / build
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# logs
+*.log
+npm-debug.log*
+
+# local editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Playwright traces
+test-results/
+playwright-report/
+
+# generated capture output — reproduce with `node tools/shoot.mjs`;
+# the curated comparison set stays in report/
+shots/
+research/shots/
+
+# ---------------------------------------------------------------------------
+# Third-party material fetched from the speedtest.net production site.
+#
+# None of it is redistributed here because it is not ours to license: the WTFPL
+# in this repository covers the original code, not Ookla's assets. Run
+# `npm run fetch-assets` to pull them back locally for pixel-accurate work.
+# The derived, factual artefacts (colour samples, screenshots, metrics) stay.
+# ---------------------------------------------------------------------------
+public/fonts/gaugemono.woff2
+research/app.js
+research/app.css
+research/index.html
+research/gauge-gradient-*.png
+research/gaugemono-regular-webfont-*.woff2

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Speedtest gauge — SVG replica</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div id="gauge-stage"></div>
+
+    <div class="readout" id="readout"></div>
+
+    <div class="panel">
+      <button id="play" type="button">Run demo</button>
+      <button id="reset" type="button">Reset</button>
+      <span class="field">
+        <input id="speed" type="range" min="0" max="10000" step="1" value="0" />
+        <output id="speed-label">0 Mbps</output>
+      </span>
+      <label class="switch"><input id="single" type="checkbox" /> Single</label>
+      <label class="switch"><input id="autoscale" type="checkbox" /> Extend scale &gt; 1 Gbps</label>
+      <span class="field">
+        <button data-stage="idle" type="button">Idle</button>
+        <button data-stage="download" type="button">Download</button>
+        <button data-stage="upload" type="button">Upload</button>
+        <button data-stage="done" type="button">Done</button>
+      </span>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

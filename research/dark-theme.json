@@ -1,0 +1,42 @@
+{
+  "before": {
+    "schemeAttr": "dark",
+    "dataTheme": null,
+    "bodyBg": "rgb(0, 0, 0)",
+    "htmlBg": "rgba(0, 0, 0, 0)",
+    "bodyColor": "color(display-p3 1 1 1)",
+    "largeBlocks": [
+      {
+        "cls": "flex min-h-full flex-1 flex-col MuiBox-root css-1knqeql",
+        "bg": "color(display-p3 0 0 0)",
+        "color": "color(display-p3 1 1 1)"
+      },
+      {
+        "cls": "MuiBackdrop-root css-u5rsjp",
+        "bg": "rgba(0, 0, 0, 0.5)",
+        "color": "color(display-p3 1 1 1)"
+      }
+    ],
+    "numColor": null
+  },
+  "after": {
+    "schemeAttr": "light",
+    "dataTheme": null,
+    "bodyBg": "color(display-p3 0.949 0.95 0.949)",
+    "htmlBg": "rgba(0, 0, 0, 0)",
+    "bodyColor": "color(display-p3 0 0 0)",
+    "largeBlocks": [
+      {
+        "cls": "flex min-h-full flex-1 flex-col MuiBox-root css-1knqeql",
+        "bg": "color(display-p3 0.949 0.95 0.949)",
+        "color": "color(display-p3 0 0 0)"
+      },
+      {
+        "cls": "MuiBackdrop-root css-u5rsjp",
+        "bg": "rgba(0, 0, 0, 0.5)",
+        "color": "color(display-p3 0 0 0)"
+      }
+    ],
+    "numColor": null
+  }
+}

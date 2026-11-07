@@ -1,0 +1,112 @@
+{
+  "url": "https://www.speedtest.net/",
+  "title": "Speedtest by Ookla - The Global Broadband Speed Test",
+  "scheme": "light",
+  "bodyBg": "color(display-p3 0.949 0.95 0.949)",
+  "decBg": "rgba(0, 0, 0, 0)",
+  "fonts": [
+    "Montserrat, Montserrat-Fixed, Avenir, \"Avenir Next LT Pro\", Corbel, \"URW Gothic\", source-sans-pro, sans-serif",
+    "sans-serif"
+  ],
+  "svg": [
+    {
+      "w": 144,
+      "h": 17.9,
+      "x": 82.3,
+      "y": 23,
+      "viewBox": "0 0 193 24",
+      "width": null,
+      "height": null,
+      "hasImg": false,
+      "hasRot": false,
+      "nText": 0,
+      "nPath": 3,
+      "nCircle": 0
+    },
+    {
+      "w": 133.2,
+      "h": 99,
+      "x": 319.7,
+      "y": 954.5,
+      "viewBox": null,
+      "width": "148",
+      "height": "110",
+      "hasImg": false,
+      "hasRot": false,
+      "nText": 0,
+      "nPath": 8,
+      "nCircle": 3
+    },
+    {
+      "w": 114.5,
+      "h": 84.2,
+      "x": 585.1,
+      "y": 961.9,
+      "viewBox": null,
+      "width": "127.2",
+      "height": "93.6",
+      "hasImg": false,
+      "hasRot": false,
+      "nText": 0,
+      "nPath": 27,
+      "nCircle": 3
+    },
+    {
+      "w": 97.2,
+      "h": 85.3,
+      "x": 849.7,
+      "y": 961.3,
+      "viewBox": null,
+      "width": "108",
+      "height": "94.8",
+      "hasImg": false,
+      "hasRot": false,
+      "nText": 0,
+      "nPath": 11,
+      "nCircle": 6
+    },
+    {
+      "w": 71.3,
+      "h": 102.6,
+      "x": 350.7,
+      "y": 1164.7,
+      "viewBox": null,
+      "width": "79.2",
+      "height": "114",
+      "hasImg": false,
+      "hasRot": false,
+      "nText": 0,
+      "nPath": 17,
+      "nCircle": 0
+    },
+    {
+      "w": 90,
+      "h": 96.3,
+      "x": 597.3,
+      "y": 1167.9,
+      "viewBox": null,
+      "width": "100",
+      "height": "107",
+      "hasImg": false,
+      "hasRot": false,
+      "nText": 0,
+      "nPath": 13,
+      "nCircle": 0
+    },
+    {
+      "w": 98.1,
+      "h": 99,
+      "x": 849.3,
+      "y": 1166.5,
+      "viewBox": null,
+      "width": "109",
+      "height": "110",
+      "hasImg": false,
+      "hasRot": false,
+      "nText": 0,
+      "nPath": 13,
+      "nCircle": 0
+    }
+  ],
+  "mono": []
+}
