@@ -291,7 +291,7 @@ DPR 1 / 2 / 3 下数字锚点恒为 `(143, 226)`。
 4. **未复刻的动效**：刻度点亮时的白色闪烁（80 ms）、GO 圆环 ↔ 仪表的 morph（`DISC_R 45 / DISC_SW 90` 那组动画）、连接中显示 "Connecting…" 文案。三者都属于阶段过渡装饰，不影响稳态与测速过程。
 5. **微颤是本项目新增的**。原站只有纯 tween，无抖动。振幅上限 1.1° 且由指针角速度驱动，稳态不可见；需要严格保真时置 `wobbleMax: 0`。
 6. **`scaleMode: 'auto'` 是扩展**，原站无刻度切换（2.3、3.3 节）。
-7. **第三方素材未随仓库分发**：`public/fonts/gaugemono.woff2`（Ookla 的仪表字体）与站点自带的渐变贴图、构建产物都不在仓库里——WTFPL 覆盖的是本项目的原创代码，不覆盖 Ookla 的资产。执行 `npm run fetch-assets` 会把它们拉回本地以恢复逐像素保真；缺失时仪表照常运行，只是数字退回 `ui-monospace` 回退栈、略宽于原版。`montserrat.woff2` 为 SIL OFL 1.1，可再分发，随附 `public/fonts/OFL.txt`。
+7. **仪表字体随仓库分发**：`public/fonts/gaugemono.woff2` 取自 speedtest.net 公开 CDN，已一并提交，克隆后开箱即得与原生一致的像素效果（无需额外步骤）。站点自带的渐变贴图与构建产物仍不进仓库，`npm run fetch-assets` 可在本地拉回以复现 `tools/sample_gradient.py` 的采样流程。`montserrat.woff2` 为 SIL OFL 1.1，随附 `public/fonts/OFL.txt`。
 
 ---
 
@@ -324,7 +324,7 @@ python tools/compose.py                      # 拼版对比图
 
 即：随便用、随便改、随便商用、随便再许可，不要求署名、不提供任何担保。
 
-**不在许可范围内**：从 speedtest.net 取得的第三方资产（Ookla 的 Gauge Mono 字体、仪表渐变贴图、站点构建产物）不随仓库分发，也不受本项目许可约束；`npm run fetch-assets` 仅在本地拉取用于对比测量。`report/` 中的原站截图仅作技术比对与注释之用。`public/fonts/montserrat.woff2` 依 SIL OFL 1.1 分发，全文见 `public/fonts/OFL.txt`。
+**第三方资产**：`public/fonts/gaugemono.woff2` 取自 speedtest.net 公开 CDN，已随仓库一并分发；仪表渐变贴图与站点构建产物不进仓库，`npm run fetch-assets` 可在本地拉取以便复现采样流程。本项目 WTFPL 覆盖的是原创代码，对这些第三方资产不构成授权声明。`public/fonts/montserrat.woff2` 依 SIL OFL 1.1 分发，全文见 `public/fonts/OFL.txt`。
 
 ```
 speedtest gauge — SVG replica

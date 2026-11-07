@@ -1,17 +1,15 @@
 /**
- * Restore the third-party assets that are deliberately not committed.
- *
- * They live on speedtest.net's public CDN and are used here only as measurement
- * references — see .gitignore for why they are excluded from the repository.
+ * Restore the speedtest.net reference assets that are kept out of the tree.
  *
  *   node tools/fetch-assets.mjs
  *
  * Fetches:
- *   public/fonts/gaugemono.woff2        the gauge numeral face
+ *   public/fonts/gaugemono.woff2        the gauge numeral face (committed already;
+ *                                       only re-downloaded if it was deleted)
  *   research/gauge-gradient-*.png       the 4 arc gradient rasters
  *
- * Without the font the gauge still renders; it just falls back to `ui-monospace`
- * and the numerals become slightly wider than the original.
+ * The rasters are needed by tools/sample_gradient.py to regenerate
+ * src/gauge/gradient-stops.ts. Nothing here is required just to run the gauge.
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';

@@ -24,14 +24,14 @@ shots/
 research/shots/
 
 # ---------------------------------------------------------------------------
-# Third-party material fetched from the speedtest.net production site.
+# Material fetched from the speedtest.net production site.
 #
-# None of it is redistributed here because it is not ours to license: the WTFPL
-# in this repository covers the original code, not Ookla's assets. Run
-# `npm run fetch-assets` to pull them back locally for pixel-accurate work.
-# The derived, factual artefacts (colour samples, screenshots, metrics) stay.
+# The gauge numeral face (public/fonts/gaugemono.woff2) is committed, so a clone
+# renders exactly like the reference. The site's own bundle and gradient rasters
+# stay out of the tree; `npm run fetch-assets` pulls them back for re-running the
+# sampling pipeline. Derived, factual artefacts (colour samples, metrics,
+# screenshots) are committed.
 # ---------------------------------------------------------------------------
-public/fonts/gaugemono.woff2
 research/app.js
 research/app.css
 research/index.html
