@@ -1,0 +1,128 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# least privilege: nothing here writes to the repo
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '22'
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Syntax + types + lint. Fast, no browser, fails first on the cheap stuff.
+  # ---------------------------------------------------------------------------
+  static:
+    name: syntax · types · lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript type check (syntax + types)
+        run: npm run typecheck
+
+      - name: ESLint (type-aware for src, recommended for tools)
+        run: npm run lint
+
+      - name: Python tooling syntax
+        run: python3 -m py_compile tools/*.py
+
+  # ---------------------------------------------------------------------------
+  # Production bundle. Its output is what the smoke job tests.
+  # ---------------------------------------------------------------------------
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Report bundle size
+        run: |
+          echo '### Bundle' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          find dist -type f \( -name '*.js' -o -name '*.css' -o -name '*.html' \) -printf '%-46p %8s B\n' | sort >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
+
+  # ---------------------------------------------------------------------------
+  # Headless Chromium assertions against the built bundle: viewBox, tick table,
+  # arc path, value -> needle angle, lit ticks, animation liveness, console errors.
+  # ---------------------------------------------------------------------------
+  smoke:
+    name: headless smoke
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Assert the rendered instrument
+        run: |
+          npx vite preview --port 4173 --strictPort &
+          PREVIEW_PID=$!
+          for _ in $(seq 1 60); do
+            if curl -sf http://127.0.0.1:4173/ > /dev/null; then break; fi
+            sleep 0.5
+          done
+          node tools/ci-smoke.mjs http://127.0.0.1:4173/
+          STATUS=$?
+          kill $PREVIEW_PID 2>/dev/null || true
+          exit $STATUS
+
+      - name: Upload smoke screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-output
+          path: shots/
+          if-no-files-found: ignore
+          retention-days: 7

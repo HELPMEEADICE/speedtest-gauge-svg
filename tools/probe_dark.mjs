@@ -46,7 +46,6 @@ const before = await read();
 console.log('[light]', JSON.stringify(before, null, 1));
 
 // click the theme toggle in the header
-let toggled = false;
 for (const sel of [
   'button[aria-label*="dark" i]',
   'button[aria-label*="theme" i]',
@@ -58,7 +57,6 @@ for (const sel of [
     const b = page.locator(sel).first();
     if (await b.count()) {
       await b.click({ timeout: 3000 });
-      toggled = true;
       console.log('[probe] clicked', sel);
       break;
     }

@@ -59,7 +59,7 @@ function stopSource(): void {
 }
 
 // ------------------------------------------------------------------ readouts
-const readout = document.getElementById('readout') as HTMLElement | null;
+const readout = document.getElementById('readout');
 function updateReadout(kbps: number): void {
   if (!readout) return;
   readout.textContent = `${(kbps / 1000).toLocaleString('en-US', {
@@ -107,7 +107,7 @@ playBtn?.addEventListener('click', () => {
 });
 
 const slider = document.getElementById('speed') as HTMLInputElement | null;
-const sliderLabel = document.getElementById('speed-label') as HTMLElement | null;
+const sliderLabel = document.getElementById('speed-label');
 function onSlider(): void {
   if (!slider) return;
   const mbps = Number(slider.value);

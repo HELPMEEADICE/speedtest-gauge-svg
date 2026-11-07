@@ -1,5 +1,8 @@
 # Speedtest gauge — SVG replica
 
+[![CI](https://github.com/HELPMEEADICE/speedtest-gauge-svg/actions/workflows/ci.yml/badge.svg)](https://github.com/HELPMEEADICE/speedtest-gauge-svg/actions/workflows/ci.yml)
+[![license: WTFPL](https://img.shields.io/badge/license-WTFPL-brightgreen.svg)](LICENSE)
+
 高保真复刻 [speedtest.net](https://www.speedtest.net/) 经典动态测速仪表盘的独立组件。
 TypeScript + SVG，无框架、无重量级依赖，`dist/` 产物 21 kB（gzip 7.5 kB）。
 
@@ -327,4 +330,38 @@ python tools/compose.py                      # 拼版对比图
 speedtest gauge — SVG replica
 Copyright (C) 2026 HELPMEEADICE
 Licensed under the Do What The Fuck You Want To Public License, Version 2.
+```
+
+---
+
+## 8. 代码检查与 CI
+
+GitHub Actions 工作流：`.github/workflows/ci.yml`，触发于 push 到 main、所有 PR 和手动派发。
+
+| job | 内容 | 命令 |
+|---|---|---|
+| `syntax · types · lint` | TypeScript 类型检查（tsc 同时即语法检查）、ESLint、Python 工具脚本语法 | `npm run typecheck` / `npm run lint` / `python3 -m py_compile tools/*.py` |
+| `build` | 生产构建 + 产物体积写入 Job Summary + 上传 `dist` artifact | `npm run build` |
+| `headless smoke` | 依赖 `build`，下载 artifact 后用 Chromium 断言真实渲染结果 | `node tools/ci-smoke.mjs <url>` |
+
+ESLint 用 flat config（`eslint.config.js`），按两类代码分级：
+
+- `src/**/*.ts`：`typescript-eslint` 的 **type-aware** 规则集（`recommendedTypeChecked` + `projectService`），外加 `eqeqeq / no-var / prefer-const / consistent-type-imports`；
+- `tools/**/*.mjs`：普通 `recommended`，同时开启 node + browser 全局（这些脚本会把回调传进 `page.evaluate()`）。
+
+`headless smoke` 不是"页面能打开"式的摆设，它对着**生产构建产物**断言 32 项：
+
+- 硬锚点：0 Mbps → −135°、100 Mbps → 0°、1000 Mbps → 135°
+- 结构：`viewBox`、9 个刻度值、轨道弧 `d`（`M 51.076 234.924 A 130 130 …`）、渐变环已生成、单位文案
+- 数值映射：0 / 8 / 100 / 155.61 / 862 / 1000 Mbps 六档，逐档比对指针角度（容差 0.6°）、数字文本、点亮刻度数
+- 动画：指针确实在动、全程不越界、无 console 错误
+
+测试里的期望值是**按原站规范重新推导**的（`LABELS` + 等角刻度 + 段内线性插值），不是从被测代码里读常量，所以能捕获实现偏离规范。
+
+本地跑全套：
+
+```bash
+npm run check          # typecheck + lint
+npm run build && npx vite preview --port 4173 &
+npm run smoke -- http://localhost:4173/
 ```

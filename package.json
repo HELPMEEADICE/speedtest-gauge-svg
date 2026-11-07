@@ -8,7 +8,11 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --port 5179",
     "typecheck": "tsc --noEmit",
-    "fetch-assets": "node tools/fetch-assets.mjs"
+    "fetch-assets": "node tools/fetch-assets.mjs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "check": "npm run typecheck && npm run lint",
+    "smoke": "node tools/ci-smoke.mjs"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +22,11 @@
     "playwright": "^1.65.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.72.1",
     "vite": "^7.3.7"
   },
   "allowScripts": {
