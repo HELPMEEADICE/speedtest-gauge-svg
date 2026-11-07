@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
@@ -55,7 +55,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
@@ -72,7 +72,7 @@ jobs:
           find dist -type f \( -name '*.js' -o -name '*.css' -o -name '*.html' \) -printf '%-46p %8s B\n' | sort >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: dist
           path: dist
@@ -90,7 +90,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
@@ -100,19 +100,22 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: dist
           path: dist
 
       - name: Assert the rendered instrument
         run: |
-          npx vite preview --port 4173 --strictPort &
+          # bind IPv4 explicitly: on the runner `localhost` resolves to ::1 first
+          npx vite preview --host 127.0.0.1 --port 4173 --strictPort &
           PREVIEW_PID=$!
           for _ in $(seq 1 60); do
             if curl -sf http://127.0.0.1:4173/ > /dev/null; then break; fi
             sleep 0.5
           done
+          curl -sf http://127.0.0.1:4173/ > /dev/null || { echo "preview server did not start"; exit 1; }
+          set +e
           node tools/ci-smoke.mjs http://127.0.0.1:4173/
           STATUS=$?
           kill $PREVIEW_PID 2>/dev/null || true
@@ -120,7 +123,7 @@ jobs:
 
       - name: Upload smoke screenshots
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: smoke-output
           path: shots/
